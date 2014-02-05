@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>elements.js span</title>
+      <link rel="stylesheet" href="style.css">
+      <script type="text/javascript" src="../src/elements.min.js"></script>
+   </head>
+   <body>
+      <h1>sort span</h1>
+      <div id="os-versions" class="span-example">
+         <span>Ubuntu 12.04 LTS</span>
+         <span>Fedora 20</span>
+         <span>Ubuntu 13.10</span>
+         <span>Red Hat 8.0</span>
+         <span>Fedora 19</span>
+         <span>Red Hat 9</span>
+      </div>
+      <button id="sort-os">sort spans</button>
+      <script>
+         var ejs = elementsJS();
+
+         ejs.sync({
+            containerId: 'os-versions',
+            elementType: 'span'
+         });
+
+         document.getElementById('sort-os').onclick = function() {
+            ejs.sort(false);
+         }
+      </script>
+   </body>
+</html>

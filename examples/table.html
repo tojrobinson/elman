@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>elements.js table</title>
+      <link rel="stylesheet" href="style.css">
+      <script type="text/javascript" src="../src/elements.min.js"></script>
+   </head>
+   <body>
+      <h1>sort table</h1>
+      <table cellspacing="0" border="0">
+         <thead>
+            <tr>
+               <th id="name-head">name</th>
+               <th id="age-head">age</th>
+               <th id="about-head">about</th>
+            </tr>
+         </thead>
+         <tbody id="container">
+            <tr>
+               <td>Leonardo Da Vinci</td>
+               <td>562</td>
+               <td>Italian inventor, artist, and writer.</td>
+            </tr>
+            <tr>
+               <td>Edward Norton</td>
+               <td>44</td>
+               <td>Hollywood actor who starred in movies such as: Fight Club, American History X, and Rounders.</td>
+            </tr>
+            <tr>
+               <td>Alice Liddell</td>
+               <td>7</td>
+               <td>Inspiration for Lewis Carroll's "Alice's Adventures in Wonderland".</td>
+            </tr>
+            <tr>
+               <td>Tully Robinson</td>
+               <td>26</td>
+               <td>Author of elements.js</td>
+            </tr>
+            <tr>
+               <td>Linus Torvalds</td>
+               <td>42</td>
+               <td>God.</td>
+            </tr>
+            <tr>
+               <td>Thomas Stearns Eliot</td>
+               <td>126</td>
+               <td>Gifted essayist, poet and playwright.</td>
+            </tr>
+            <tr>
+               <td>eval</td>
+               <td>-42</td>
+               <td>evil.</td>
+            </tr>
+         </tbody>
+      </table>
+      <script>
+         var ejs = elementsJS();
+
+         ejs.sync({
+            containerId: 'container',
+            elementType: 'tr',
+            cellType: 'td'
+         });
+
+         document.getElementById('name-head').onclick = function() {
+            ejs.sort(false, 0);
+         }
+
+         document.getElementById('age-head').onclick = function() {
+            ejs.sort(true, 1);
+         }
+
+         document.getElementById('about-head').onclick = function() {
+            ejs.sort(false, 2)
+         }
+      </script>
+   </body>
+</html>

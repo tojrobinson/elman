@@ -1,10 +1,8 @@
-elements.js
-===========
+#elements.js
 
 Super fast and simple generic HTML element sorting and searching.
 
-Usage
-=====
+##Usage
 Create an element.js object and sync it to a structure. The object can be re-synced at any time or additional instances can be created to work simultaneously.
 
 ```javascript
@@ -33,8 +31,7 @@ ejsNew.sync({
 });
 ```
 
-Sort
-----
+###Sort
 To sort the synced structure, simply call:
 
 ```javascript
@@ -74,3 +71,26 @@ you would call `ejs.sort(true, 1);`. List style structures do not require the se
 </div>
 ```
 you would call `ejs.sort(false)`.
+
+##License
+The MIT License (MIT)
+
+Copyright (c) 2014 Tully Robinson
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

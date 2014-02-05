@@ -20,6 +20,8 @@
       <script>
          var ejs = elementsJS();
 
+         var newEjs = elementsJS();
+         alert(ejs === newEjs);
          ejs.sync({
             containerId: 'os-versions',
             elementType: 'div'

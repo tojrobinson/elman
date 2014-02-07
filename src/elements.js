@@ -106,7 +106,44 @@ var elementsJS = function() {
    }
 
    api.search = function(options) {
-      //TODO
+      var pattern = new RegExp(options.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
+          currElement,
+          allFields,
+          field,
+          i,
+          len;
+
+      if (options.hasOwnProperty('field')) {
+         field = options.field;
+         if (field < 0 || field >= context.elements[0].values.length) {
+            throw new Error('[elements.js] Invalid search field.');
+         }
+      } else {
+         field = false;
+      }
+
+      for (i = 0, len = context.elements.length; i < len; ++i) {
+         currElement = context.elements[i];
+         currElement.visible = false;
+         if (field) {
+            if(currElement.values[field].match(pattern)) {
+               context.elements[i].visible = true;
+            }
+         } else { // default to all fields
+            allFields = currElement.values.join(' ');
+            if (allFields.match(pattern)) {
+               context.elements[i].visible = true;
+            }
+         }
+      }
+
+      helpers.clear();
+
+      for (i = 0, len = context.elements.length; i < len; ++i) {
+         if (context.elements[i].visible) {
+            context.container.appendChild(context.elements[i].obj);
+         }
+      }
    }
 
    return api;

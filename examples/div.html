@@ -4,7 +4,7 @@
       <meta charset="UTF-8">
       <title>elements.js div</title>
       <link rel="stylesheet" href="style.css">
-      <script type="text/javascript" src="../src/elements.min.js"></script>
+      <script type="text/javascript" src="../src/elements.js"></script>
    </head>
    <body>
       <h1>sort div</h1>
@@ -15,20 +15,19 @@
          <div>Red Hat 8.0</div>
          <div>Fedora 19</div>
          <div>Red Hat 9</div>
+         <div>Debian 7.3</div>
       </div>
       <button id="sort-os">sort divs</button>
       <script>
          var ejs = elementsJS();
 
-         var newEjs = elementsJS();
-         alert(ejs === newEjs);
          ejs.sync({
             containerId: 'os-versions',
             elementType: 'div'
          });
 
          document.getElementById('sort-os').onclick = function() {
-            ejs.sort(false);
+            ejs.sort({numeric: false});
          }
       </script>
    </body>

@@ -4,7 +4,7 @@
       <meta charset="UTF-8">
       <title>elements.js table</title>
       <link rel="stylesheet" href="style.css">
-      <script type="text/javascript" src="../src/elements.min.js"></script>
+      <script type="text/javascript" src="../src/elements.js"></script>
    </head>
    <body>
       <h1>sort table</h1>
@@ -64,15 +64,24 @@
          });
 
          document.getElementById('name-head').onclick = function() {
-            ejs.sort(false, 0);
+            ejs.sort({
+               numeric: false,
+               field: 0
+            });
          }
 
          document.getElementById('age-head').onclick = function() {
-            ejs.sort(true, 1);
+            ejs.sort({
+               numeric: true,
+               field: 1
+            });
          }
 
          document.getElementById('about-head').onclick = function() {
-            ejs.sort(false, 2)
+            ejs.sort({
+               numeric: false,
+               field: 2
+            });
          }
       </script>
    </body>

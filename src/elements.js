@@ -1,3 +1,4 @@
+/* exported elementsJS */
 var elementsJS = function() {
    'use strict';
 
@@ -5,29 +6,15 @@ var elementsJS = function() {
       container: null,
       elementType: null,
       cellType: null,
-      currField: null,
+      sortState: null,
+      mutated: null,
       elements: [],
       sortList: []
    },
+   helpers = {},
    api = {};
 
-   api.sync = function(settings) {
-      context.container = document.getElementById(settings.containerId);
-      context.elementType = settings.elementType;
-      context.cellType = settings.cellType;
-      context.elements = [];
-      context.sortList = [];
-      context.currField = {index: -1, order: -1};
-      var elements = document.getElementById(settings.containerId).getElementsByTagName(settings.elementType);
-      for (var i = 0; i < elements.length; ++i) {
-         context.elements.push({
-            obj: elements[i],
-            visible: true
-         });
-      }
-   }
-
-   api.clear = function() {
+   helpers.clear = function() {
       if (context.container && context.container.childNodes.length) {
          while (context.container.childNodes.length > 0) {
             context.container.removeChild(context.container.firstChild);
@@ -35,56 +22,91 @@ var elementsJS = function() {
       }
    }
 
-   api.sort = function(numeric, field) {
-      var order, i, len;
+   api.clear = helpers.clear;
 
-      if (field !== context.currField.index) {
-         context.currField.index = field;
-         context.currField.order = -1;
-         // context.sortList.length = 0;
+   api.sync = function(options) {
+      options = options || {};
+      if (!options.containerId || !options.elementType) {
+         throw new Error('[elements.js] must specify containerId and elementType');
+      } else if (options.elementType === options.innerType) {
+         throw new Error('[elements.js] elementType and innerType must be unique');
+      }
+
+      // if future:
+      //    add mutation object
+      context.container = document.getElementById(options.containerId);
+      context.elementType = options.elementType;
+      context.cellType = options.cellType;
+      context.sortState = {focusField: null, order: -1};
+      context.mutated = false;
+      context.elements = [];
+      context.sortList = [];
+
+      var elements = context.container.querySelectorAll(options.elementType),
+          currElement,
+          cells,
+          values;
+
+      for (var i = 0; i < elements.length; ++i) {
+         currElement = elements[i];
+
+         if (!context.cellType) {
+            values = [currElement.innerText || currElement.textContent || ''];
+         } else {
+            values = [];
+            cells = currElement.querySelectorAll(context.cellType);
+            for (var j = 0; j < cells.length; ++j) {
+               values.push(cells[j].innerText || cells[j].textContent || '');
+            }
+         }
+
+         context.elements.push({
+            obj: elements[i],
+            values: values,
+            visible: true
+         });
+      }
+   }
+
+   api.sort = function(options) {
+      var field = options.field || 0,
+      order,
+      i, 
+      len;
+
+      if (field < 0 || field >= context.elements[0].values.length) {
+         throw new Error('[elements.js] Invalid sort field.');
+      }
+
+      if (!context.sortState.focusField || context.sortState.focusField !== field) {
+         context.sortState.focusField = field;
          context.sortList = [];
-
          for (i = 0; i < context.elements.length; ++i) {
-            var element = context.elements[i],
-                comparisonObject = {
-                   element: element.obj
-                };
-
-            if (!element.visible) {
-               continue;
+            if (context.elements[i].visible) {
+               context.sortList.push(context.elements[i]);
             }
-
-            if (context.cellType) {
-               var cell = element.obj.getElementsByTagName(context.cellType)[field];
-               comparisonObject.value = cell.innerText || cell.textContent;
-            } else {
-               comparisonObject.value = element.obj.innerText || element.obj.textContent;
-            }
-
-            context.sortList.push(comparisonObject);
          }
       }
 
-      order = context.currField.order *= -1;
+      order = context.sortState.order *= -1;
 
       context.sortList.sort(function(a, b) {
-         if (numeric) {
-            return (b.value - a.value)*order;
+         a = a.values[field];
+         b = b.values[field];
+         if (options.numeric) {
+            return (b - a)*order;
          } else {
-            return a.value.localeCompare(b.value)*order;
+            return a.localeCompare(b)*order;
          }
       }); 
 
       for (i = 0, len = context.sortList.length; i < len; ++i) {
-         context.container.appendChild(context.sortList[i].element);
+         context.container.appendChild(context.sortList[i].obj);
       }
    }
 
-   api.search = function() {
-      for (var i = 0, len = context.elements.length; i < len; ++i) {
-         // TODO
-         // build results/eliminate non-matching
-      }
+   api.search = function(options) {
+      //TODO
    }
 
    return api;

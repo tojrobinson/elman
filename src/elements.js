@@ -69,10 +69,11 @@ var elementsJS = function() {
    }
 
    api.sort = function(options) {
+      options = options || {};
       var field = options.field || 0,
-      order,
-      i, 
-      len;
+          order,
+          i, 
+          len;
 
       if (field < 0 || field >= context.elements[0].values.length) {
          throw new Error('[elements.js] Invalid sort field.');
@@ -93,7 +94,7 @@ var elementsJS = function() {
       context.sortList.sort(function(a, b) {
          a = a.values[field];
          b = b.values[field];
-         if (options.numeric) {
+         if (options.numeric || false) {
             return (b - a)*order;
          } else {
             return a.localeCompare(b)*order;
@@ -106,6 +107,7 @@ var elementsJS = function() {
    }
 
    api.search = function(options) {
+      options = options || {};
       var pattern = new RegExp(options.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
           currElement,
           allFields,

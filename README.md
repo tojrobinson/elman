@@ -3,66 +3,71 @@
 Super fast and simple generic HTML element sorting and searching.
 
 ##Usage
-Create an element.js object and sync it to a structure. The object can be re-synced at any time or additional instances can be created to work simultaneously.
+Create an **element.js** object and sync it to a structure.
 
 ```javascript
-var ejs = elementsJS();
+var elements = elementsJS();
 
-// sync elements.js to table
-ejs.sync({
-   containerId: 'id-of-tbody',
-   elementType: 'tr',
-   cellType: 'td'
+// for list like structures
+elements.sync({
+   containerId: 'id-of-container', // e.g. id of ul
+   elementType: 'li'               // any valid HTML selector
 });
 
-// re-sync elements.js to list
-ejs.sync({
-   containerId: 'id-of-ul',
-   elementType: 'li',
-});
-
-var ejsNew = elementsJS();
-
-// sync elements.js to anything that has elements contained in something
-ejsNew.sync({
-   containerId: 'id-of-container',
-   elementType: 'div', // or any element type that is within #id-of-container
-   cellType: 'div' // optional if the element type also contains sub elements
+// for table like structure
+elements.sync({
+   containerId: 'id-of-container', // e.g. id of tbody
+   elementType: 'tr',              // any valid HTML selector
+   cellType: 'td'                  // any valid HTML selector
 });
 ```
+Note: **elementType** and **cellType** should be relatively unique.
 
-###Sort
-To sort the synced structure, simply call:
+The **elements.js** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **elements.js** can be created by calling `elementsJS()` again.
 
-```javascript
-ejs.sort(false, 0);
-```
-
-where the first argument of the sort method indicates whether or not the sort should be numeric (true|false), and the optional second argument indicates which cell (starting from 0) to sort by for table like structures. For example, to sort the 2nd row of the following table using a numeric sort:
+###Sorting
+To sort the synced structure, simply call the `elements.sort()` method. You can specify whether the sort should be numeric or text based as well as which field to sort by for table like structures by supplying the method with an options object. For example, to sort a table by its second column using a numeric sort, you would invoke the sort method as follows:
 ```html
 <table>
    <thead>
       <tr>
-         <th>string</th>
+        <th>string</th>
          <th>numeric</th>
       </tr>
    </thead>
    <tbody id="container">
-      <tr>
+      <tr class="sort-element"> <!-- optional class identifier. can select on tr if preffered -->
          <td>one</td>
-         <td>two</td>
-         <td>three</td>
+         <td>8</td>
       </tr>
-      <tr>
-         <td>2</td>
-         <td>1</td>
-         <td>3</td>
+      <tr class="sort-element">
+         <td>two</td>
+         <td>42</td>
+      </tr>
+      <tr class="sort-element">
+         <td>three</td>
+         <td>6</td>
       </tr>
    </tbody>
 </table>
-```
 
-you would call `ejs.sort(true, 1);`. List style structures do not require the second argument, e.g., to sort the span elements:
+<script>
+   var elements = elementsJS();
+    
+   elements.sync({
+      containerId: 'container',
+      elementType: '.sort-element',
+      cellType: 'td'
+   });
+   
+   // sort
+   elements.sort({
+      numeric: true,
+      field: 1
+   });
+</script>
+```
+List like structures do not require a field parameter, e.g., to sort the span elements using the default text based strategy:
 ```html
 <div id="container">
    <span>one</span>
@@ -70,8 +75,10 @@ you would call `ejs.sort(true, 1);`. List style structures do not require the se
    <span>three</span>
 </div>
 ```
-you would call `ejs.sort(false)`.
+you could call `elements.sort()`.
 
+## More Examples
+example links
 ##License
 The MIT License (MIT)
 

@@ -1,6 +1,12 @@
 #elements.js
-
+v0.1.0.  
 Super fast and simple generic HTML element sorting and searching.
+
+## Features
+* No dependencies.
+* Low memory and resource footprint (2KB of code).
+* Loose coupling of **elements.js** and your document.
+* Change focus structure dynamically and programatically without creating new instances.
 
 ##Usage
 Create an **element.js** object and sync it to a structure.
@@ -77,8 +83,24 @@ List like structures do not require a field parameter, e.g., to sort the span el
 ```
 you could call `elements.sort()`.
 
+##Searching
+
+```javascript
+// search all fields
+elements.search({
+   term: searchTerm
+});
+
+// search single field
+elements.search({
+   term: searchTerm,
+   field: 3
+});
+```
+
 ## More Examples
 example links
+
 ##License
 The MIT License (MIT)
 

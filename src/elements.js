@@ -127,7 +127,7 @@ var elementsJS = function() {
       for (i = 0, len = context.elements.length; i < len; ++i) {
          currElement = context.elements[i];
          currElement.visible = false;
-         if (field) {
+         if (field !== false) {
             if(currElement.values[field].match(pattern)) {
                context.elements[i].visible = true;
             }

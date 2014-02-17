@@ -1,27 +1,32 @@
 #elements.js
-v0.1.0.  
-Super fast and simple generic HTML element sorting and searching.
+**elements.js** is a fast and lightweight pure javascript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutatue the controlled structure; instead, it efficiently monitors the targeted structure for changes, allowing for mutations via traditional means (document methods, jQuery, etc.).
+
+* Latest version: 0.1.0
 
 ## Features
 * No dependencies.
 * Low memory and resource footprint (2KB of code).
 * Loose coupling of **elements.js** and your document.
-* Change focus structure dynamically and programatically without creating new instances.
+* Change focus structure dynamically without creating new instances.
 
 ##Usage
 Create an **element.js** object and sync it to a structure.
 
+####List-like Structures
 ```javascript
-var elements = elementsJS();
+var listElements = elementsJS();
 
-// for list like structures
-elements.sync({
+listElements.sync({
    containerId: 'id-of-container', // e.g. id of ul
    elementType: 'li'               // any valid HTML selector
 });
+```
 
-// for table like structure
-elements.sync({
+####Table-like Structures
+```javascript
+var tableElements = elementsJS();
+
+tableElements.sync({
    containerId: 'id-of-container', // e.g. id of tbody
    elementType: 'tr',              // any valid HTML selector
    cellType: 'td'                  // any valid HTML selector
@@ -32,7 +37,7 @@ Note: **elementType** and **cellType** should be relatively unique.
 The **elements.js** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **elements.js** can be created by calling `elementsJS()` again.
 
 ###Sorting
-To sort the synced structure, simply call the `elements.sort()` method. You can specify whether the sort should be numeric or text based as well as which field to sort by for table like structures by supplying the method with an options object. For example, to sort a table by its second column using a numeric sort, you would invoke the sort method as follows:
+To sort the synced structure, simply call the `elements.sort()` method. You can specify whether the sort should be numeric or text based as well as which field to sort by for table-like structures by supplying the method with an options object. For example, to sort a table by its second column using a numeric sort, you would invoke the sort method as follows:
 ```html
 <table>
    <thead>
@@ -73,7 +78,7 @@ To sort the synced structure, simply call the `elements.sort()` method. You can 
    });
 </script>
 ```
-List like structures do not require a field parameter, e.g., to sort the span elements using the default text based strategy:
+List-like structures do not require a field parameter, e.g., to sort the following span elements using the default text based strategy:
 ```html
 <div id="container">
    <span>one</span>
@@ -98,7 +103,7 @@ elements.search({
 });
 ```
 
-## More Examples
+##More Examples
 example links
 
 ##License

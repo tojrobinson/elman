@@ -11,10 +11,10 @@ var elementsJS = function() {
       elements: [],
       sortList: []
    },
-   helpers = {},
    api = {};
 
-   helpers.clear = function() {
+   // ensure consistent internal usage of clear
+   context.clear = function() {
       if (context.container && context.container.childNodes.length) {
          while (context.container.childNodes.length > 0) {
             context.container.removeChild(context.container.firstChild);
@@ -22,16 +22,16 @@ var elementsJS = function() {
       }
    }
 
-   api.clear = helpers.clear;
+   api.clear = context.clear;
 
    api.sync = function(options) {
-      options = options || {};
       if (!options.containerId || !options.elementType) {
          throw new Error('[elements.js] must specify containerId and elementType');
       } else if (options.elementType === options.innerType) {
          throw new Error('[elements.js] elementType and innerType must be unique');
       }
 
+      // TODO
       // if future:
       //    add mutation object
       context.container = document.getElementById(options.containerId);
@@ -69,14 +69,15 @@ var elementsJS = function() {
    }
 
    api.sort = function(options) {
-      options = options || {};
       var field = options.field || 0,
           order,
           i, 
           len;
 
-      if (field < 0 || field >= context.elements[0].values.length) {
-         throw new Error('[elements.js] Invalid sort field.');
+      if (context.elements.length) {
+         if (field < 0 || field >= context.elements[0].values.length) {
+            throw new Error('[elements.js] Invalid sort field.');
+         }
       }
 
       if (!context.sortState.focusField || context.sortState.focusField !== field) {
@@ -107,7 +108,6 @@ var elementsJS = function() {
    }
 
    api.search = function(options) {
-      options = options || {};
       var pattern = new RegExp(options.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
           currElement,
           allFields,
@@ -139,7 +139,7 @@ var elementsJS = function() {
          }
       }
 
-      helpers.clear();
+      context.clear();
 
       for (i = 0, len = context.elements.length; i < len; ++i) {
          if (context.elements[i].visible) {

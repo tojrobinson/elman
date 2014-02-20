@@ -1,10 +1,11 @@
 #elements.js
-**elements.js** is a fast and lightweight pure javascript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutatue the controlled structure; instead, it efficiently monitors the targeted structure for changes, allowing for mutations via traditional means (document methods, jQuery, etc.).
+**elements.js** is a fast and lightweight pure Javascript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the targeted structure for changes, allowing you to update it however you wish.
 
 * Latest version: 0.1.0
 
 ## Features
 * No dependencies.
+* Speed.
 * Low memory and resource footprint (2KB of code).
 * Loose coupling of **elements.js** and your document.
 * Change focus structure dynamically without creating new instances.
@@ -100,6 +101,24 @@ elements.search({
 elements.search({
    term: searchTerm,
    field: 3
+});
+```
+
+##Mutating
+After a value within the synced structure has been changed, simply call the `mutated()` method and **elements.js** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
+
+For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **elements.js** object on the 10th incrementation (if neither `sort` or `search` were called in between).
+
+```javascript
+$('tr').click(function() {
+   var rowClicks = $(this).find('.click-count'),
+       currTotal = parseInt(rowClicks.text());
+
+   rowClicks.text(currTotal + 1);
+
+   elements.mutated({
+      threshold: 10
+   });
 });
 ```
 

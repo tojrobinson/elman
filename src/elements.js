@@ -22,6 +22,38 @@ var elementsJS = function() {
       }
    }
 
+   context.resyncElements = function() {
+      //context.elements.length = 0;
+      context.elements = [];
+      context.sortState.buildList = true;
+      context.mutations = 0;
+
+      var elements = context.container.querySelectorAll(context.elementType),
+          currElement,
+          cells,
+          values;
+
+      for (var i = 0; i < elements.length; ++i) {
+         currElement = elements[i];
+
+         if (!context.cellType) {
+            values = [currElement.innerText || currElement.textContent || ''];
+         } else {
+            values = [];
+            cells = currElement.querySelectorAll(context.cellType);
+            for (var j = 0; j < cells.length; ++j) {
+               values.push(cells[j].innerText || cells[j].textContent || '');
+            }
+         }
+
+         context.elements.push({
+            obj: elements[i],
+            values: values,
+            visible: true
+         });
+      }
+   }
+
    api.clear = context.clear;
 
    api.sync = function(options) {
@@ -33,11 +65,11 @@ var elementsJS = function() {
 
       // TODO
       // if future:
-      //    add mutation object
+      //    add MutationObserver
       context.container = document.getElementById(options.containerId);
       context.elementType = options.elementType;
       context.cellType = options.cellType;
-      context.sortState = {focusField: null, order: -1};
+      context.sortState = {focusField: null, order: -1, buildList: true};
       context.mutations = 0;
       context.elements = [];
       context.sortList = [];
@@ -69,9 +101,10 @@ var elementsJS = function() {
    }
 
    api.mutated = function(options) {
-      if (++context.mutations >= options.threshold) {
-         // resync
-         context.mutations = 0;
+      ++context.mutations;
+      // resync now else on next sort/search
+      if ((options.threshold > 0) && (context.mutations >= options.threshold)) {
+         context.resyncElements();
       }
    }
 
@@ -87,10 +120,17 @@ var elementsJS = function() {
          }
       }
 
-      if (!context.sortState.focusField || context.sortState.focusField !== field) {
+      // check for unsynced mutations
+      if (context.mutations) {
+         context.resyncElements();
+      }
+
+      if (context.sortState.buildList || (context.sortState.focusField !== field)) {
          context.sortState.focusField = field;
+         context.sortState.buildList = false;
          context.sortList = [];
          for (i = 0; i < context.elements.length; ++i) {
+            // only sort visible
             if (context.elements[i].visible) {
                context.sortList.push(context.elements[i]);
             }
@@ -122,6 +162,15 @@ var elementsJS = function() {
           i,
           len;
 
+      // check for unsynced mutations
+      if (context.mutations) {
+         context.resyncElements();
+      }
+
+      // notify sort
+      context.sortState.buildList = true;
+
+      // TODO allow search on subset of fields rather than 1 or all
       if (options.hasOwnProperty('field')) {
          field = options.field;
          if (field < 0 || field >= context.elements[0].values.length) {

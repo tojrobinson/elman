@@ -33,6 +33,7 @@ table {
 th, td {
    padding: 10px;
    border-bottom: solid 1px #efefef;
+   text-align: left;
 }
 
 th {
@@ -74,4 +75,8 @@ th:hover {
    padding-bottom: 10px;
    padding-left: 10px;
    border-bottom: solid 1px #cdcdcd;
+}
+
+.description {
+   margin: 20px 0 20px 0;
 }

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="style.css">
+      <script src="http://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+      <script type="text/javascript" src="../src/elements.js"></script>
+      <title>mutate</title>
+   </head>
+   <body>
+      <h1>Mutate Structure</h1>
+      <div class="description">Click rows to increase count and then sort by clicking the 'Count' table head.</div>
+      <table cellspacing="0">
+         <thead>
+            <tr>
+               <th>Fruit</th>
+               <th>Colour</th>
+               <th id="count-head">Count</th>
+            </tr>
+         </thead>
+         <tbody id="fruit">
+            <tr>
+               <td>Banana</td>
+               <td>Yellow</td>
+               <td class="click-count">0</td>
+            </tr>
+            <tr>
+               <td>Grape</td>
+               <td>Purple</td>
+               <td class="click-count">0</td>
+            </tr>
+            <tr>
+               <td>Orange</td>
+               <td>Orange</td>
+               <td class="click-count">0</td>
+            </tr>
+            <tr>
+               <td>Watermelon</td>
+               <td>Red</td>
+               <td class="click-count">0</td>
+            </tr>
+            <tr>
+               <td>Apple</td>
+               <td>Green</td>
+               <td class="click-count">0</td>
+            </tr>
+         </tbody>
+      </table>
+
+      <script>
+         var elements = elementsJS();
+
+         elements.sync({
+            containerId: 'fruit',
+            elementType: 'tr',
+            cellType: 'td'
+         });
+
+         $('#count-head').click(function() {
+            elements.sort({
+               numeric: true,
+               field: 2
+            });
+         });
+
+         $('tbody tr').click(function() {
+            var rowClicks = $(this).find('.click-count'),
+            currTotal = parseInt(rowClicks.text());
+
+            rowClicks.text(currTotal + 1);
+
+            elements.mutated({
+               threshold: 10
+            });
+         });
+      </script>
+   </body>
+</html>

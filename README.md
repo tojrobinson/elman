@@ -37,7 +37,7 @@ Note: **elementType** and **cellType** should be relatively unique.
 
 The **elements.js** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **elements.js** can be created by calling `elementsJS()` again.
 
-##Sorting
+###Sorting
 ```javascript
    elements.sort({
       numeric: true,  // defaults to string based sort
@@ -45,7 +45,7 @@ The **elements.js** object can be re-synced at any time by invoking the **sync**
    });
 ```
 
-##Searching
+###Searching
 
 ```javascript
 // search all fields
@@ -60,7 +60,7 @@ elements.search({
 });
 ```
 
-##Mutating
+###Mutating
 After a value within the synced structure has been changed, simply call the `mutated()` method and **elements.js** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
 
 For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **elements.js** object on the 10th incrementation (if neither `sort` or `search` were called in between).
@@ -77,9 +77,6 @@ $('tr').click(function() {
    });
 });
 ```
-
-##More Examples
-example links
 
 ##License
 The MIT License (MIT)

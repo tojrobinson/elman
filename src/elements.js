@@ -7,7 +7,7 @@ var elementsJS = function() {
       elementType: null,
       cellType: null,
       sortState: null,
-      mutated: null,
+      mutations: 0,
       elements: [],
       sortList: []
    },
@@ -38,7 +38,7 @@ var elementsJS = function() {
       context.elementType = options.elementType;
       context.cellType = options.cellType;
       context.sortState = {focusField: null, order: -1};
-      context.mutated = false;
+      context.mutations = 0;
       context.elements = [];
       context.sortList = [];
 
@@ -65,6 +65,13 @@ var elementsJS = function() {
             values: values,
             visible: true
          });
+      }
+   }
+
+   api.mutated = function(options) {
+      if (++context.mutations >= options.threshold) {
+         // resync
+         context.mutations = 0;
       }
    }
 

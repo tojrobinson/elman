@@ -13,12 +13,9 @@ var elementsJS = function() {
    },
    api = {};
 
-   // ensure consistent internal usage of clear
-   context.clear = function() {
-      if (context.container && context.container.childNodes.length) {
-         while (context.container.childNodes.length > 0) {
-            context.container.removeChild(context.container.firstChild);
-         }
+   context.hideAll = function() {
+      for (var i = 0; i < context.elements.length; ++i) {
+         context.elements[i].obj.style.display = 'none';
       }
    }
 
@@ -54,7 +51,13 @@ var elementsJS = function() {
       }
    }
 
-   api.clear = context.clear;
+   api.clear = function() {
+      if (context.container && context.container.childNodes.length) {
+         while (context.container.childNodes.length > 0) {
+            context.container.removeChild(context.container.firstChild);
+         }
+      }
+   }
 
    api.sync = function(options) {
       if (!options.containerId || !options.elementType) {
@@ -65,7 +68,7 @@ var elementsJS = function() {
 
       // TODO
       // if future:
-      //    add MutationObserver
+      //    add mutation object
       context.container = document.getElementById(options.containerId);
       context.elementType = options.elementType;
       context.cellType = options.cellType;
@@ -195,11 +198,11 @@ var elementsJS = function() {
          }
       }
 
-      context.clear();
+      context.hideAll();
 
       for (i = 0, len = context.elements.length; i < len; ++i) {
          if (context.elements[i].visible) {
-            context.container.appendChild(context.elements[i].obj);
+            context.elements[i].obj.style.display = '';
          }
       }
    }

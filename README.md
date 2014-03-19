@@ -1,5 +1,5 @@
 #elements.js
-**elements.js** is a fast and lightweight pure Javascript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors it structure for changes, allowing you to update it however you wish.
+**elements.js** is a fast and lightweight pure Javascript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
 
 * Latest version: 0.1.0
 

@@ -1,21 +1,24 @@
-#elements.js
-**elements.js** is a fast and lightweight pure JavaScript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
+#element-manager
+**element-manager** is a fast and lightweight pure JavaScript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
 
-* Latest version: 0.1.0
+* Latest version: 0.2.0
 
 ## Features
 * No dependencies.
 * Speed.
 * Low memory and resource footprint (2KB of code).
-* Loose coupling of **elements.js** and your document.
+* Loose coupling of **element-manager** and your document.
 * Change focus structure dynamically without creating new instances.
 
 ##Usage
-Create an **element.js** object and sync it to a structure.
+```javascript
+npm install element-manager
+```
 
 ####List-like Structures
 ```javascript
-var listElements = elementsJS();
+var em = require('element-manager'),
+    listELements = em();
 
 listElements.sync({
    containerId: 'id-of-container', // e.g. id of ul
@@ -25,7 +28,7 @@ listElements.sync({
 
 ####Table-like Structures
 ```javascript
-var tableElements = elementsJS();
+var tableElements = require('element-manager')();
 
 tableElements.sync({
    containerId: 'id-of-container', // e.g. id of tbody
@@ -35,18 +38,21 @@ tableElements.sync({
 ```
 Note: **elementType** and **cellType** should be relatively unique.
 
-The **elements.js** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **elements.js** can be created by calling `elementsJS()` again.
+The **element-manager** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **element-manager** can be created by calling `elementsJS()` again.
 
 ###Sorting
 ```javascript
+   // default
+   elements.sort();
+
+   // specialised
    elements.sort({
       numeric: true,  // defaults to string based sort
-      field: 1        // for table-like structures (column to sort by)
+      field: 1        // for table-like structures (column to sort by), defaults to 0
    });
 ```
 
 ###Searching
-
 ```javascript
 // search all fields
 elements.search({
@@ -61,9 +67,9 @@ elements.search({
 ```
 
 ###Mutating
-After a value within the synced structure has been changed, simply call the `mutated()` method and **elements.js** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
+After a value within the synced structure has been changed, simply call the `mutated()` method and **element-manager** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
 
-For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **elements.js** object on the 10th incrementation (if neither `sort` or `search` were called in between).
+For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **element-manager** object on the 10th incrementation (if neither `sort` or `search` were called in between).
 
 ```javascript
 $('tr').click(function() {

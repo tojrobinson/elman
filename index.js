@@ -58,26 +58,25 @@ module.exports = function() {
       }
    }
 
-   api.sync = function(opt) {
-      opt = opt || {};
-      if (!opt.containerId || !opt.elementType) {
+   api.sync = function(options) {
+      if (!options.containerId || !options.elementType) {
          throw new Error('[elements.js] must specify containerId and elementType');
-      } else if (opt.elementType === opt.innerType) {
+      } else if (options.elementType === options.innerType) {
          throw new Error('[elements.js] elementType and innerType must be unique');
       }
 
       // TODO
       // if future:
       //    add mutation object
-      context.container = document.getElementById(opt.containerId);
-      context.elementType = opt.elementType;
-      context.cellType = opt.cellType;
+      context.container = document.getElementById(options.containerId);
+      context.elementType = options.elementType;
+      context.cellType = options.cellType;
       context.sortState = {focusField: null, order: -1, buildList: true};
       context.mutations = 0;
       context.elements = [];
       context.sortList = [];
 
-      var elements = context.container.querySelectorAll(opt.elementType),
+      var elements = context.container.querySelectorAll(options.elementType),
           currElement,
           cells,
           values;
@@ -103,18 +102,17 @@ module.exports = function() {
       }
    }
 
-   api.mutated = function(opt) {
-      opt = opt || {};
+   api.mutated = function(options) {
       ++context.mutations;
       // resync now else on next sort/search
-      if ((opt.threshold > 0) && (context.mutations >= opt.threshold)) {
+      if ((options.threshold > 0) && (context.mutations >= options.threshold)) {
          context.resyncElements();
       }
    }
 
-   api.sort = function(opt) {
-      opt = opt || {};
-      var field = opt.field || 0,
+   api.sort = function(options) {
+      options = options || {};
+      var field = options.field || 0,
           order,
           i, 
           len;
@@ -147,7 +145,7 @@ module.exports = function() {
       context.sortList.sort(function(a, b) {
          a = a.values[field];
          b = b.values[field];
-         if (opt.numeric || false) {
+         if (options.numeric || false) {
             return (b - a)*order;
          } else {
             return a.localeCompare(b)*order;
@@ -159,9 +157,8 @@ module.exports = function() {
       }
    }
 
-   api.search = function(opt) {
-      opt = opt || {};
-      var pattern = new RegExp(opt.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
+   api.search = function(options) {
+      var pattern = new RegExp(options.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
           currElement,
           allFields,
           field,
@@ -177,8 +174,8 @@ module.exports = function() {
       context.sortState.buildList = true;
 
       // TODO allow search on subset of fields rather than 1 or all
-      if (opt.hasOwnProperty('field')) {
-         field = opt.field;
+      if (options.hasOwnProperty('field')) {
+         field = options.field;
          if (field < 0 || field >= context.elements[0].values.length) {
             throw new Error('[elements.js] Invalid search field.');
          }

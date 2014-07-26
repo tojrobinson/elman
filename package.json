@@ -1,0 +1,32 @@
+{
+  "name": "element-manager",
+  "version": "0.2.0",
+  "description": "Sort and search groups of HTML elements.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tojrobinson/element-manager"
+  },
+  "keywords": [
+    "html",
+    "dom",
+    "browser",
+    "sort",
+    "search",
+    "element",
+    "manager"
+  ],
+  "author": {
+     "name": "Tully Robinson",
+     "email": "tully@tojr.org",
+     "url": "http://tojr.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tojrobinson/element-manager/issues"
+  },
+  "homepage": "https://github.com/tojrobinson/element-manager"
+}

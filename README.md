@@ -15,10 +15,10 @@ npm install element-manager
 
 ####List-like Structures
 ```javascript
-var em = require('element-manager'),
-    listELements = em();
+var ElementManager = require('element-manager');
+var elements = new ElementManager();
 
-listElements.sync({
+elements.sync({
    containerId: 'id-of-container', // e.g. id of ul
    elementType: 'li'               // any valid HTML selector
 });
@@ -26,9 +26,7 @@ listElements.sync({
 
 ####Table-like Structures
 ```javascript
-var tableElements = require('element-manager')();
-
-tableElements.sync({
+elements.sync({
    containerId: 'id-of-container', // e.g. id of tbody
    elementType: 'tr',              // any valid HTML selector
    cellType: 'td'                  // any valid HTML selector

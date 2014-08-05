@@ -1,21 +1,21 @@
-#element-manager
-**element-manager** is a fast and lightweight pure JavaScript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
+#Element Manager
+**elman** is a fast and lightweight pure JavaScript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
 
 ## Features
 * No dependencies.
 * Speed.
 * Low memory and resource footprint (2KB of code).
-* Loose coupling of **element-manager** and your document.
+* Loose coupling of **elman** and your document.
 * Change focus structure dynamically without creating new instances.
 
 ##Usage
 ```javascript
-npm install element-manager
+npm install elman 
 ```
 
 ####List-like Structures
 ```javascript
-var ElementManager = require('element-manager');
+var ElementManager = require('elman');
 var elements = new ElementManager();
 
 elements.sync({
@@ -34,7 +34,7 @@ elements.sync({
 ```
 Note: **elementType** and **cellType** should be relatively unique.
 
-The **element-manager** object can be re-synced at any time by invoking the **sync** method again with the new structure's details. Additional instances of **element-manager** can be created by calling `elementsJS()` again.
+The **elements** object can be re-synced at any time by invoking the **sync** method again with the new structure's details.
 
 ###Sorting
 ```javascript
@@ -63,9 +63,9 @@ elements.search({
 ```
 
 ###Mutating
-After a value within the synced structure has been changed, simply call the `mutated()` method and **element-manager** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
+After a value within the synced structure has been changed, simply call the `mutated()` method and **elman** will resync the values on the next `sort` or `search` invocation. Alternatively, you can set a threshold value to indicate the number of mutations that should occur before the structure is immediately resynchronised.
 
-For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **element-manager** object on the 10th incrementation (if neither `sort` or `search` were called in between).
+For example, assume you want to increment the `.click-count` cell in a table. The following would immidiately resync your **elman** object on the 10th incrementation (if neither `sort` or `search` were called in between).
 
 ```javascript
 $('tr').click(function() {

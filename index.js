@@ -22,7 +22,7 @@ ElementManager.hideAll = function() {
 }
 
 ElementManager.resyncElements = function() {
-   //this.elements.length = 0;
+   // this.elements.length = 0;
    this.elements = [];
    this.sortState.buildList = true;
    this.mutations = 0;
@@ -64,9 +64,9 @@ ElementManager.prototype.clear = function() {
 ElementManager.prototype.sync = function(opt) {
    opt = opt || {};
    if (!opt.containerId || !opt.elementType) {
-      throw new Error('[elements.js] must specify containerId and elementType');
+      throw new Error('[elman] must specify containerId and elementType');
    } else if (opt.elementType === opt.innerType) {
-      throw new Error('[elements.js] elementType and innerType must be unique');
+      throw new Error('[elman] elementType and innerType must be unique');
    }
 
    // TODO

@@ -1,5 +1,5 @@
 {
-  "name": "element-manager",
+  "name": "elman",
   "version": "0.3.0",
   "description": "Sort and search groups of HTML elements.",
   "main": "index.js",

@@ -15,13 +15,13 @@ function ElementManager() {
    this.sortList = [];
 }
 
-ElementManager.hideAll = function() {
+function hideAll() {
    for (var i = 0; i < this.elements.length; ++i) {
       this.elements[i].obj.style.display = 'none';
    }
 }
 
-ElementManager.resyncElements = function() {
+function resyncElements() {
    // this.elements.length = 0;
    this.elements = [];
    this.sortState.buildList = true;
@@ -111,7 +111,7 @@ ElementManager.prototype.mutated = function(opt) {
    ++this.mutations;
    // resync now else on next sort/search
    if ((opt.threshold > 0) && (this.mutations >= opt.threshold)) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 }
 
@@ -130,7 +130,7 @@ ElementManager.prototype.sort = function(opt) {
 
    // check for unsynced mutations
    if (this.mutations) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 
    if (this.sortState.buildList || (this.sortState.focusField !== field)) {
@@ -173,7 +173,7 @@ ElementManager.prototype.search = function(opt) {
 
    // check for unsynced mutations
    if (this.mutations) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 
    // notify sort
@@ -204,7 +204,7 @@ ElementManager.prototype.search = function(opt) {
       }
    }
 
-   ElementManager.hideAll.call(this);
+   hideAll.call(this);
 
    for (i = 0, len = this.elements.length; i < len; ++i) {
       if (this.elements[i].visible) {

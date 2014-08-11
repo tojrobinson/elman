@@ -1,13 +1,6 @@
 #Element Manager
 **elman** is a fast and lightweight pure JavaScript module for generic HTML element sorting and searching. It does not impose any restrictions on how to mutate the controlled structure; instead, it efficiently monitors the structure for changes, allowing you to update it however you normally would (jQuery, document methods etc.).
 
-## Features
-* No dependencies.
-* Speed.
-* Low memory and resource footprint (2KB of code).
-* Loose coupling of **elman** and your document.
-* Change focus structure dynamically without creating new instances.
-
 ##Usage
 ```javascript
 npm install elman 
@@ -38,27 +31,27 @@ The **elements** object can be re-synced at any time by invoking the **sync** me
 
 ###Sorting
 ```javascript
-   // default
-   elements.sort();
+// default
+elements.sort();
 
-   // specialised
-   elements.sort({
-      numeric: true,  // defaults to string based sort
-      field: 1        // for table-like structures (column to sort by), defaults to 0
-   });
+// specialised
+elements.sort({
+   numeric: true,  // defaults to string based sort
+   cell: 1        // for table-like structures (column to sort by), defaults to 0
+});
 ```
 
 ###Searching
 ```javascript
-// search all fields
+// search all cells
 elements.search({
    term: searchTerm
 });
 
-// search single field
+// search single cell
 elements.search({
    term: searchTerm,
-   field: 3
+   cell: 3
 });
 ```
 

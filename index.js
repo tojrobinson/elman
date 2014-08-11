@@ -15,13 +15,13 @@ function ElementManager() {
    this.sortList = [];
 }
 
-ElementManager.hideAll = function() {
+function hideAll() {
    for (var i = 0; i < this.elements.length; ++i) {
       this.elements[i].obj.style.display = 'none';
    }
 }
 
-ElementManager.resyncElements = function() {
+function resyncElements() {
    // this.elements.length = 0;
    this.elements = [];
    this.sortState.buildList = true;
@@ -75,7 +75,7 @@ ElementManager.prototype.sync = function(opt) {
    this.container = document.getElementById(opt.containerId);
    this.elementType = opt.elementType;
    this.cellType = opt.cellType;
-   this.sortState = {focusField: null, order: -1, buildList: true};
+   this.sortState = {focusCell: null, order: -1, buildList: true};
    this.mutations = 0;
    this.elements = [];
    this.sortList = [];
@@ -111,30 +111,30 @@ ElementManager.prototype.mutated = function(opt) {
    ++this.mutations;
    // resync now else on next sort/search
    if ((opt.threshold > 0) && (this.mutations >= opt.threshold)) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 }
 
 ElementManager.prototype.sort = function(opt) {
    opt = opt || {};
-   var field = opt.field || 0,
+   var cell = opt.cell || 0,
        order,
        i, 
        len;
 
    if (this.elements.length) {
-      if (field < 0 || field >= this.elements[0].values.length) {
-         throw new Error('[elements.js] Invalid sort field.');
+      if (cell < 0 || cell >= this.elements[0].values.length) {
+         throw new Error('[elements.js] Invalid sort cell.');
       }
    }
 
    // check for unsynced mutations
    if (this.mutations) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 
-   if (this.sortState.buildList || (this.sortState.focusField !== field)) {
-      this.sortState.focusField = field;
+   if (this.sortState.buildList || (this.sortState.focusCell !== cell)) {
+      this.sortState.focusCell = cell;
       this.sortState.buildList = false;
       this.sortList = [];
       for (i = 0; i < this.elements.length; ++i) {
@@ -148,8 +148,8 @@ ElementManager.prototype.sort = function(opt) {
    order = this.sortState.order *= -1;
 
    this.sortList.sort(function(a, b) {
-      a = a.values[field];
-      b = b.values[field];
+      a = a.values[cell];
+      b = b.values[cell];
       if (opt.numeric || false) {
          return (b - a)*order;
       } else {
@@ -166,45 +166,45 @@ ElementManager.prototype.search = function(opt) {
    opt = opt || {};
    var pattern = new RegExp(opt.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
        currElement,
-       allFields,
-       field,
+       allCells,
+       cell,
        i,
        len;
 
    // check for unsynced mutations
    if (this.mutations) {
-      ElementManager.resyncElements.call(this);
+      resyncElements.call(this);
    }
 
    // notify sort
    this.sortState.buildList = true;
 
-   // TODO allow search on subset of fields rather than 1 or all
-   if (opt.hasOwnProperty('field')) {
-      field = opt.field;
-      if (field < 0 || field >= this.elements[0].values.length) {
-         throw new Error('[elements.js] Invalid search field.');
+   // TODO allow search on subset of cells rather than 1 or all
+   if (opt.hasOwnProperty('cell')) {
+      cell = opt.cell;
+      if (cell < 0 || cell >= this.elements[0].values.length) {
+         throw new Error('[elements.js] Invalid search cell.');
       }
    } else {
-      field = false;
+      cell = false;
    }
 
    for (i = 0, len = this.elements.length; i < len; ++i) {
       currElement = this.elements[i];
       currElement.visible = false;
-      if (field !== false) {
-         if(currElement.values[field].match(pattern)) {
+      if (cell !== false) {
+         if(currElement.values[cell].match(pattern)) {
             this.elements[i].visible = true;
          }
-      } else { // default to all fields
-         allFields = currElement.values.join(' ');
-         if (allFields.match(pattern)) {
+      } else { // default to all cells
+         allCells = currElement.values.join(' ');
+         if (allCells.match(pattern)) {
             this.elements[i].visible = true;
          }
       }
    }
 
-   ElementManager.hideAll.call(this);
+   hideAll.call(this);
 
    for (i = 0, len = this.elements.length; i < len; ++i) {
       if (this.elements[i].visible) {

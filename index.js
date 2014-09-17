@@ -65,8 +65,8 @@ ElementManager.prototype.sync = function(opt) {
    opt = opt || {};
    if (!opt.containerId || !opt.elementType) {
       throw new Error('[elman] must specify containerId and elementType');
-   } else if (opt.elementType === opt.innerType) {
-      throw new Error('[elman] elementType and innerType must be unique');
+   } else if (opt.elementType === opt.cellType) {
+      throw new Error('[elman] elementType and cellType must be unique');
    }
 
    // TODO

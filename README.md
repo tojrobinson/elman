@@ -37,7 +37,7 @@ elements.sort();
 // specialised
 elements.sort({
    numeric: true,  // defaults to string based sort
-   cell: 1        // for table-like structures (column to sort by), defaults to 0
+   cell: 1         // for table-like structures (column to sort by), defaults to 0
 });
 ```
 
@@ -48,10 +48,10 @@ elements.search({
    term: searchTerm
 });
 
-// search single cell
+// search specific cells
 elements.search({
    term: searchTerm,
-   cell: 3
+   cells: [1,3,5]
 });
 ```
 

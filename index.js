@@ -167,7 +167,7 @@ ElementManager.prototype.search = function(opt) {
    var pattern = new RegExp(opt.term.replace(/[$^*+?.-\/\\|()[\]{}]/g, '\\$&'), 'i'),
        currElement,
        allCells,
-       cell,
+       cells,
        i,
        len;
 
@@ -179,25 +179,21 @@ ElementManager.prototype.search = function(opt) {
    // notify sort
    this.sortState.buildList = true;
 
-   // TODO allow search on subset of cells rather than 1 or all
-   if (opt.hasOwnProperty('cell')) {
-      cell = opt.cell;
-      if (cell < 0 || cell >= this.elements[0].values.length) {
-         throw new Error('[elements.js] Invalid search cell.');
-      }
-   } else {
-      cell = false;
-   }
-
    for (i = 0, len = this.elements.length; i < len; ++i) {
       currElement = this.elements[i];
       currElement.visible = false;
-      if (cell !== false) {
-         if(currElement.values[cell].match(pattern)) {
+      if (opt.cells) {
+         var toSearch = '';
+
+         opt.cells.forEach(function(cell) {
+            toSearch += currElement.values[cell];
+         });
+
+         if(toSearch.match(pattern)) {
             this.elements[i].visible = true;
          }
       } else { // default to all cells
-         allCells = currElement.values.join(' ');
+         allCells = currElement.values.join('');
          if (allCells.match(pattern)) {
             this.elements[i].visible = true;
          }

@@ -208,3 +208,12 @@ ElementManager.prototype.search = function(opt) {
       }
    }
 }
+
+ElementManager.prototype.clearSearch = function() {
+   var i, len;
+
+   for (i = 0, len = this.elements.length; i < len; ++i) {
+      this.elements[i].visible = true;
+      this.elements[i].obj.style.display = '';
+   }
+}

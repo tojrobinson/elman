@@ -53,6 +53,9 @@ elements.search({
    term: searchTerm,
    cells: [1,3,5]
 });
+
+// clear search affects
+elements.clearSearch();
 ```
 
 ###Mutating
